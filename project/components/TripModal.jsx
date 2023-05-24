@@ -4,11 +4,11 @@ import TripForm from './TripForm'
 import MyButton from './MyButton'
 
 const TripModal = (props) => {
-    const [nameV, setNameV] = useState('Voyage');
-    const [ville, setVille] = useState('Alexandrie');
-    const [dateArriver, setDateArriver] = useState('25/05/2023');
-    const [dateDepart, setDateDepart] = useState('19/07/2023');
-    const [theme, setTheme] = useState('Culture');
+    const [nameV, setNameV] = useState('');
+    const [ville, setVille] = useState('');
+    const [dateArriver, setDateArriver] = useState('');
+    const [dateDepart, setDateDepart] = useState('');
+    const [theme, setTheme] = useState('');
 
     const handleNameVChange = (newNameV) => {
         setNameV(newNameV);
@@ -19,19 +19,33 @@ const TripModal = (props) => {
     };
 
     const handleThemeChange = (newTheme) => {
-        setVille(newVille);
+        setTheme(newTheme);
+    };
+    
+    const handleDateAChange = (date) => {
+        const formattedDate = date.toISOString().split('T')[0];
+        setDateArriver(formattedDate);
+    };
+
+    const handleDateDChange = (date) => {
+        const formattedDate = date.toISOString().split('T')[0];
+        setDateDepart(formattedDate);
     };
 
 
-    const handleSubmit = () => {
+    function onSubmit() {
         console.log('Name : ', nameV);
         console.log('Ville : ', ville);
-        console.log("Date d'arriver : ", dateArriver)
-        console.log("Date de départ : ", dateDepart)
-        console.log("theme : ",theme)
-        props.onClose();
-    };
-
+        console.log("Date d'arriver : ", dateArriver);
+        console.log("Date de départ : ", dateDepart);
+        console.log("theme : ",theme);
+        props.onClose()
+        setNameV('')
+        setVille('')
+        setDateArriver('')
+        setDateDepart('')
+        setTheme('')
+    }
   return (
     <Modal
       visible={props.isModalVisible}
@@ -46,14 +60,14 @@ const TripModal = (props) => {
                 datedepart={dateDepart}
                 theme={theme}
 
-                handleNameChange={handleNameVChange}
+                handleNameVChange={handleNameVChange}
                 handleVilleChange={handleVilleChange}
-                //handleDateAChange={handleDateAChange}
-                //handleDateDChange={handleDateDChange}
+                handleDateAChange={handleDateAChange}
+                handleDateDChange={handleDateDChange}
                 handleThemeChange={handleThemeChange}
             />
             <View style ={styles.buttonContainer}>
-                <MyButton content="Valider" onPress={handleSubmit} />
+                <MyButton content="Valider" onPress={onSubmit} />
                 <MyButton content="Close" onPress={props.onClose} />
             </View>  
         </View>
