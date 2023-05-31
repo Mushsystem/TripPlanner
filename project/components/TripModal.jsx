@@ -39,11 +39,11 @@ const TripModal = (props) => {
         console.log("Date d'arriver : ", dateArriver);
         console.log("Date de départ : ", dateDepart);
         console.log("theme : ",theme);
-        props.onClose()
-        setNameV('')
-        setVille('')
-        setDateArriver('')
-        setDateDepart('')
+        props.onClose();
+        setNameV('');
+        setVille('');
+        setDateArriver('');
+        setDateDepart('');
         setTheme('')
     }
   return (
@@ -52,7 +52,7 @@ const TripModal = (props) => {
       animationType="slide"
     >
         <View style={styles.container}>
-            <Text style={styles.h1}>{'\n'}Le formulaire devra apparaître ici...</Text>
+            <Text style={styles.h1}>{'\n'}</Text>
             <TripForm
                 nameV={nameV}
                 ville={ville}
@@ -84,9 +84,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
       },
-      h1:{
-         fontSize : 34,
-         alignItems : "center",
-      },
-
+      buttonContainer: {
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        margin: 100,
+    },
 });
