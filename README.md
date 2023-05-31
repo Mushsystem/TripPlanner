@@ -1,2 +1,0 @@
-# TripPlanner
-projet multiplat
