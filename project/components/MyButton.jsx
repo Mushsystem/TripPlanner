@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, View, StyleSheet, ViewBase } from 'react-native';
+import { Button, View, StyleSheet } from 'react-native';
 
 const AddButton = props => {
     return (
@@ -17,7 +17,6 @@ const AddButton = props => {
 export default AddButton;
 const styles = StyleSheet.create({
     button: {
-        color: "black",
         borderRadius: 5,
         marginVertical: 5,
     },

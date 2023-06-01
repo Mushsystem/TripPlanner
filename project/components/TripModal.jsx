@@ -2,16 +2,17 @@ import React, { useState } from 'react';
 import { Modal, View, Text, StyleSheet } from 'react-native';
 import TripForm from './TripForm'
 import MyButton from './MyButton'
+import { addTrip } from '../Fire';
 
 const TripModal = (props) => {
-    const [nameV, setNameV] = useState('');
+    const [name, setName] = useState('');
     const [ville, setVille] = useState('');
     const [dateArriver, setDateArriver] = useState('');
     const [dateDepart, setDateDepart] = useState('');
     const [theme, setTheme] = useState('');
 
-    const handleNameVChange = (newNameV) => {
-        setNameV(newNameV);
+    const handleNameChange = (newName) => {
+        setName(newName);
     };
     
     const handleVilleChange = (newVille) => {
@@ -34,33 +35,55 @@ const TripModal = (props) => {
 
 
     function onSubmit() {
-        console.log('Name : ', nameV);
+        let trip = {
+          name: name,
+          ville: ville,
+          dateArriver: dateArriver,
+          dateDepart: dateDepart,
+          theme: theme
+        };
+        console.log('Name : ', name);
         console.log('Ville : ', ville);
         console.log("Date d'arriver : ", dateArriver);
         console.log("Date de départ : ", dateDepart);
         console.log("theme : ",theme);
+        
+        if (props.trip){ // Si on recoit un voyage dans le composant, on le modifie ("CURD : Update")
+            trip.id = props.trip.id;
+            trip.name = props.trip.name;
+            trip.ville = props.trip.ville;
+            trip.dateArriver = props.trip.dateArriver;
+            trip.dateDepart = props.trip.dateDepart;
+            trip.theme = props.trip.theme;          
+        }
+        else { // sinon, on le creer ("CURD : Creat")
+            addTrip(trip);
+        }
+       // setSelectedTrip(newTrip);
+
         props.onClose();
-        setNameV('');
+        setName('');
         setVille('');
         setDateArriver('');
         setDateDepart('');
-        setTheme('')
-    }
+        setTheme('');
+      }
+
   return (
     <Modal
       visible={props.isModalVisible}
       animationType="slide"
     >
         <View style={styles.container}>
-            <Text style={styles.h1}>{'\n'}</Text>
+            <Text>{'\n'}</Text>
             <TripForm
-                nameV={nameV}
+                name={name}
                 ville={ville}
                 datearriver={dateArriver}
                 datedepart={dateDepart}
                 theme={theme}
 
-                handleNameVChange={handleNameVChange}
+                handleNameChange={handleNameChange}
                 handleVilleChange={handleVilleChange}
                 handleDateAChange={handleDateAChange}
                 handleDateDChange={handleDateDChange}
@@ -80,7 +103,7 @@ export default TripModal;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#abcd',
+        backgroundColor: 'rgb(242,255,255)',
         alignItems: 'center',
         justifyContent: 'center',
       },

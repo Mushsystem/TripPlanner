@@ -16,8 +16,8 @@ const TripForm = (props) => {
       <TextInput
         style={styles.input}
         placeholder='Entrez le nom du voyage'
-        value={props.nameV}
-        onChangeText={props.handleNameVChange}
+        value={props.name}
+        onChangeText={props.handleNameChange}
         multiline={true}
 
       />
