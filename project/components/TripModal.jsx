@@ -110,6 +110,6 @@ const styles = StyleSheet.create({
       buttonContainer: {
         flexDirection: 'column',
         justifyContent: 'space-between',
-        margin: 100,
+        margin: 20,
     },
 });

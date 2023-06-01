@@ -31,15 +31,27 @@ export default function App() { // ("CURD : READ")
       </View>
       
       <View style={styles.tripList}>
-        {trips.map((trip) => (
-        <View key={trip.id} style={styles.tripItem}>
-          <Text style={styles.tripName}>{trip.name}</Text>
-          <Text style={styles.tripDetails}>
-            Ville : {trip.ville} | Duree : {trip.dateDepart} {/* Calculer la difference entre l'arriver et le depart */}
-          </Text>
-          <Text></Text> 
-        </View>
-        ))}
+        {trips.map((trip) => {
+          // Convert the trip date strings to Date objects
+          const dateDepart = new Date(trip.dateDepart);
+          const dateArrivee = new Date(trip.dateArrivee);
+
+          // Calculate the difference in milliseconds
+          const differenceInMs = dateArrivee - dateDepart;
+
+          // Convert milliseconds to days
+          const differenceInDays = Math.floor(differenceInMs / (1000 * 60 * 60 * 24));
+
+          return (
+          <View key={trip.id} style={styles.tripItem}>
+            <Text style={styles.tripName}>{trip.name}</Text>
+            <Text style={styles.tripDetails}>
+              Ville: {trip.ville} | Durée: {differenceInDays} jours           
+            </Text>
+            <Text></Text> 
+          </View>
+          );
+        })}
       </View>
 
       <TripModal

@@ -18,7 +18,7 @@ export default AddButton;
 const styles = StyleSheet.create({
     button: {
         borderRadius: 5,
-        marginVertical: 5,
+        //marginVertical: 5,
     },
 
 });
