@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { View, Text, TextInput, StyleSheet, Button } from 'react-native'
 import DateTimePicker from '@react-native-community/datetimepicker'
+import SelectDropdown from 'react-native-select-dropdown'
+
 
 const TripForm = (props) => {
   const currentDate = new Date();
@@ -10,6 +12,10 @@ const TripForm = (props) => {
   const [isDateAPickerVisible, setIsDateAPickerVisible] = useState(false)
   const [isDateDPickerVisible, setIsDateDPickerVisible] = useState(false)
 
+
+  const countries = ["France","Egypt", "Grèce", "Espagne"]
+  const themes = ["Culture","Sport", "Zen", "Food","Relegion"]
+
   return (
     <View style={styles.formContainer}>
       <Text style={styles.inputLabel}>Nom du voyage :</Text>
@@ -18,16 +24,20 @@ const TripForm = (props) => {
         placeholder='Entrez le nom du voyage'
         value={props.name}
         onChangeText={props.handleNameChange}
-        multiline={true}
+        multiline={false}
 
       />
       <Text style={styles.inputLabel}>Ville :</Text>
-      <TextInput
-        style={styles.input}
-        placeholder='Entrez la ville de destination'
-        value={props.ville}
-        onChangeText={props.handleVilleChange}
-        multiline={false}
+      <SelectDropdown
+        data={countries}
+        onSelect={(selectedItem, index) => {
+          console.log(selectedItem)
+        }}
+        buttonTextAfterSelection={(selectedItem, index) => {
+          props.ha
+          props.handleVilleChange(selectedItem);
+          return selectedItem
+        }}
       />
       <Text style={styles.inputLabel}>Date d'arriver :</Text>
       <Button
@@ -64,12 +74,15 @@ const TripForm = (props) => {
       )}
 
       <Text style={styles.inputLabel}>Théme de Voyage :</Text>
-      <TextInput
-        style={styles.input}
-        placeholder='Entrez le théme de votre voyage'
-        value={props.theme}
-        onChangeText={props.handleThemeChange}
-        multiline={false}
+      <SelectDropdown
+        data={themes}
+        onSelect={(selectedItem, index) => {
+          console.log(selectedItem)
+        }}
+        buttonTextAfterSelection={(selectedItem, index) => {
+          props.handleThemeChange(selectedItem);
+          return selectedItem
+        }}
       />
     </View>
   )
