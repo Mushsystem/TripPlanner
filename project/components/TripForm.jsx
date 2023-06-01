@@ -34,7 +34,6 @@ const TripForm = (props) => {
           console.log(selectedItem)
         }}
         buttonTextAfterSelection={(selectedItem, index) => {
-          pro
           props.handleThemeChange(selectedItem);
           return selectedItem
         }}
