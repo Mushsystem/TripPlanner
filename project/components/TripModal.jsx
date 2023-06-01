@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal, View, Text, StyleSheet } from 'react-native';
 import TripForm from './TripForm';
 import MyButton from './MyButton';
-import { addTrip } from '../Fire';
+import { addTrip, updateTrip } from '../Fire';
 
 const TripModal = (props) => {
   const [name, setName] = useState('');
@@ -55,7 +55,7 @@ const TripModal = (props) => {
         trip.dateArriver = props.trip.dateArriver;
         trip.dateDepart = props.trip.dateDepart;
         trip.theme = props.trip.theme;  
-      // Update other properties if needed
+        updateTrip(trip);
     } else {
       // sinon, on le creer ("CURD : Creat")
       addTrip(trip);
