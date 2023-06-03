@@ -1,20 +1,29 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Image } from 'react-native';
+import LoginModal from './components/LoginModal';
+import { styles } from './components/styles';
 
 export default function App() {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      // Redirect to the login page after 5 seconds
+      setIsModalVisible(true);
+    }, 5000);
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View style={styles.containerApp}>
+      <View style={styles.navbar}>
+        <Image style={styles.logo} source={require('./assets/icon_2.png')} />
+      </View>
+      <View style={styles.content}>
+        {isModalVisible && 
+        <LoginModal 
+          isModalVisible={isModalVisible} 
+        />}
+      </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
