@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, View, StyleSheet } from 'react-native';
+import { Button, View } from 'react-native';
+import { styles } from './styles';
 
 const AddButton = props => {
     return (
@@ -7,18 +8,8 @@ const AddButton = props => {
             <Button
                 title={props.content}
                 onPress={props.onPress}
-            // onClose={props.onClose} 
             />
         </View>
 
     );
 };
-
-export default AddButton;
-const styles = StyleSheet.create({
-    button: {
-        borderRadius: 5,
-        //marginVertical: 5,
-    },
-
-});

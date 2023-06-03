@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { Modal, View, Text, StyleSheet } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { Modal, View, Text, TouchableOpacity } from 'react-native';
 import TripForm from './TripForm';
-import MyButton from './MyButton';
 import { addTrip, updateTrip } from '../Fire';
+import { styles } from './styles';
 
 const TripModal = (props) => {
   const [name, setName] = useState('');
@@ -11,73 +12,77 @@ const TripModal = (props) => {
   const [dateDepart, setDateDepart] = useState('');
   const [theme, setTheme] = useState('');
 
-  const handleNameChange = (newName) => {
+  const handleNameChange = useCallback((newName) => {
     setName(newName);
-  };
+  }, []);
 
-  const handleVilleChange = (newVille) => {
+  const handleVilleChange = useCallback((newVille) => {
     setVille(newVille);
-  };
+  }, []);
 
-  const handleThemeChange = (newTheme) => {
+  const handleThemeChange = useCallback((newTheme) => {
     setTheme(newTheme);
-  };
+  }, []);
 
-  const handleDateAChange = (date) => {
+  const handleDateAChange = useCallback((date) => {
     const formattedDate = date.toISOString().split('T')[0];
     setDateArriver(formattedDate);
-  };
+  }, []);
 
-  const handleDateDChange = (date) => {
+  const handleDateDChange = useCallback((date) => {
     const formattedDate = date.toISOString().split('T')[0];
     setDateDepart(formattedDate);
-  };
+  }, []);
 
-  const onSubmit = () => {
-    let trip = {
-      name: name,
-      ville: ville,
-      dateArriver: dateArriver,
-      dateDepart: dateDepart,
-      theme: theme,
-    };
-    console.log('Name : ', name);
-    console.log('Ville : ', ville);
-    console.log("Date d'arriver : ", dateArriver);
-    console.log("Date de départ : ", dateDepart);
-    console.log("theme : ", theme);
-
-    if (props.trip) {
-        // Si on recoit un voyage dans le composant, on le modifie ("CURD : Update")
-        trip.id = props.trip.id;
-        trip.name = props.trip.name;
-        trip.ville = props.trip.ville;
-        trip.dateArriver = props.trip.dateArriver;
-        trip.dateDepart = props.trip.dateDepart;
-        trip.theme = props.trip.theme;  
-        updateTrip(trip);
-    } else {
-      // sinon, on le creer ("CURD : Creat")
-      addTrip(trip);
-    }
-
-    props.onClose();
+  const addTripToList = useCallback(() => {
+    // Réinitialiser les valeurs des champs
     setName('');
     setVille('');
     setDateArriver('');
     setDateDepart('');
     setTheme('');
-  };
+  }, [name, ville, dateArriver, dateDepart, theme]);
+
+  const onPress = useCallback(() => {
+    let trip = {
+      name,
+      ville,
+      dateArriver,
+      dateDepart,
+      theme,
+    };
+
+    // Envoyer les données au serveur
+    console.log('Name: ', name);
+    console.log('Ville: ', ville);
+    console.log("Date d'arriver: ", dateArriver);
+    console.log("Date de départ: ", dateDepart);
+    console.log("theme: ", theme);
+
+    if (props.trip) {
+      // Si on reçoit un voyage dans le composant, on le modifie ("CRUD: Update")
+      trip.id = props.trip.id;
+      updateTrip(trip);
+    } else {
+      // Sinon, on le crée ("CRUD: Create")
+      addTrip(trip);
+    }
+
+
+
+    props.onClose();
+  }, [name, ville, dateArriver, dateDepart, theme, props, addTripToList]);
 
   return (
     <Modal visible={props.isModalVisible} animationType="slide">
-      <View style={styles.container}>
+      <View style={styles.containerModal}>
+        <Text style={styles.title}>Preparer votre voyage</Text>
         <Text>{'\n'}</Text>
         <TripForm
           name={name}
           ville={ville}
-          datearriver={dateArriver}
-          datedepart={dateDepart}
+          dateArriver={dateArriver}
+          dateDepart={dateDepart}
           theme={theme}
           handleNameChange={handleNameChange}
           handleVilleChange={handleVilleChange}
@@ -86,26 +91,14 @@ const TripModal = (props) => {
           handleThemeChange={handleThemeChange}
         />
         <View style={styles.buttonContainer}>
-          <MyButton content="Valider" onPress={onSubmit} />
-          <MyButton content="Close" onPress={props.onClose} />
+          <TouchableOpacity onPress={onPress} style={styles.addButton}>
+            <Text style={styles.text}>Valider</Text>
+          </TouchableOpacity>
         </View>
+        <StatusBar style="auto" />
       </View>
     </Modal>
   );
 };
 
 export default TripModal;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'rgb(242,255,255)',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonContainer: {
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    margin: 20,
-  },
-});
